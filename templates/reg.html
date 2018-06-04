@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/init_ajax.js"></script>
+    <style>
+        .container {
+            margin-top: 100px;
+        }
+
+        #image {
+            display: none;
+        }
+
+        .image {
+            width: 60px;
+            height: 60px;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form action="" novalidate>
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="">{{ field.label }}</label>
+                        {{ field }} <span class="error pull-right"></span>
+                    </div>
+                {% endfor %}
+                <div class="form-group">
+                    <label for="image">头像<img class="image" src="/static/img/def.png" alt=""></label>
+                    <input type="file" id="image">
+                </div>
+                <input type="button" class="btn btn-default reg_btn pull-right" value="提交">
+                <span class="error" style="color: red;margin-left: 20px"></span>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    // 图像预览
+
+    $("#image").change(function () {
+        var choose_file = $(this)[0].files[0];//找到选中的文件
+        var reader = new FileReader();   //文件阅读器
+        reader.readAsDataURL(choose_file); //找到选中文件的路径
+        reader.onload = function () { //绑定事件等上面代码执行完毕之后执行下面代码
+            $(".image").attr("src", reader.result)//result取到文件的路径之后赋给默认的路径
+        }
+    });
+    // 注册事件
+    $(".reg_btn").click(function () {
+        var formdata = new FormData();//有上传文件的，所以使用FormDada来append追加对象
+        formdata.append("user", $("#id_user").val());//追加键值对，注意键必须对应views里面对应的uesr
+        formdata.append("pwd", $("#id_pwd").val());
+        formdata.append("repeat_pwd", $("#id_repeat_pwd").val());//----------------------------#注意id
+        formdata.append("email", $("#id_email").val());
+        formdata.append("image", $("#image")[0].files[0]);
+        {#        formdata.append("csrfmiddlewaretoken", $("[name='csrfmiddlewaretoken']").val());#}
+        $.ajax({
+            url: "",
+            type: "post",
+            processData: false,
+            contentType: false,
+            data: formdata,
+            success: function (data) { //data接收的是正确或者错误的值就是views那边传过来的res的键值对
+                //console.log(data)
+                if (data.user) { //如果传过来的user里面有值则注册成功
+                    // 注册成功
+                    location.href = "/login/"
+                }
+                else {// 注册失败
+                    console.log(data.error_dict);
+                    // q清空错误信息
+                    $("form span").html("");
+                    $("form .form-group").removeClass("has-error");
+                    // 加载错误信息
+                    $.each(data.error_dict, function (field, error_list) {//.each循环错误信息
+                        if (field == "__all__") {//__all__全局错误信息（钩子）
+                            $("#id_repeat_pwd").next().html(error_list[0]).css("color", 'red');
+                            $("#id_repeat_pwd").parent().addClass("has-error")//找到id_repeat_pwd的父标签加上has-error让标签变红
+                        }
+                        $("#id_" + field).next().html(error_list[0]).css("color", 'red');//id_后面的拼接是找到每个字段的id，然后找到错误信息
+                        $("#id_" + field).parent().addClass("has-error")
+                    })
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>

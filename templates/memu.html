@@ -1,0 +1,28 @@
+
+<div class="memu">
+<div class="panel panel-info">
+            <div class="panel-heading">我的分类</div>
+            <div class="panel-body">
+                {% for category in Category_list %}
+                    <a href="/blog/{{ username }}/cate/{{ category.0 }}"><p>{{ category.0 }}({{ category.1 }})</p></a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="panel panel-warning">
+            <div class="panel-heading">我的标签</div>
+            <div class="panel-body">
+                {% for tag in tag_list %}
+                    <a href="/blog/{{ username }}/tag/{{ tag.0 }}"><p>{{ tag.0 }}({{ tag.1 }})</p></a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="panel panel-danger">
+            <div class="panel-heading">随笔归档</div>
+            <div class="panel-body">
+                {% for time in article_date %}
+                    <a href="/blog/{{ user.username }}/date/{{ time.month|date:"Y" }}/{{ time.month|date:"m" }}">
+                        <p>{{ time.month|date:'Y-m' }}({{ time.c }})</p></a>
+                {% endfor %}
+            </div>
+        </div>
+</div>

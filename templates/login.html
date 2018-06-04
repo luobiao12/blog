@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/init_ajax.js"></script>
+    <style>
+        .container {
+            margin-left: 150px;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron header">
+  <h2 class="title" style="margin-left: 100px">欢迎来到博客园</h2>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-2">
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="user">用户名</label>
+                    <input type="text" class="form-control" id="user" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label for="pwd">密码</label>
+                    <input type="password" class="form-control" id="pwd" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label for="valid_code">验证码</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="valid_code">
+                        </div>
+                        <div class="col-md-6">
+                            <img id="valid_img" width="263" height="35" src="/get_valid_img" alt="">
+{#                             <input type="text" class="form-control" id="valid_code">#}
+                        </div>
+                    </div>
+                </div>
+                <input type="button" class="btn btn-info login_btn" value="登陆">
+                <span class="error" style="color: red;margin-left: 20px"></span>
+{#                <input type="button" class="btn btn-warning login_btn " value="立即注册">#}
+                <a href="{% url 'reg' %}" class="pull-right btn btn-warning">立即注册</a>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{#{% csrf_token %}#}
+<script src="/static/js/login.js"></script>
+
+</body>
+</html>

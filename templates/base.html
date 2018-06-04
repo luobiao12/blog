@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人博客主页</title>
+    {% load my_tyags %}
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/article_detail.css">
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/init_ajax.js"></script>
+    <style>
+           .color{
+{#            background-color: rgb(222, 231, 222);;#}
+               background: url("/static/img/qiang.jpg");
+        }
+        .aaa{
+            background-color: white;
+        }
+  .header {
+            background-color: #EDDEC3;
+            font-size: 16px;
+
+        }
+
+        .a a {
+            text-decoration: none;
+        }
+
+        /*{#上面是去掉a标签的下划线        #}*/
+        .header .title {
+            margin-left: 50px;
+        }
+           .comment_tree_item{
+            margin-left: 20px;
+        }
+
+    </style>
+</head>
+<body class="color">
+<div class="jumbotron header a" >
+     <p class="pull-right" style="margin-right: 20px;margin-bottom: 30px"><a href="/blog/{{ username }}/add_article">添加文章</a></p>
+    <h2 class="title"><a href="/blog/{{ username }}">{{ blog.title }}</a></h2>
+
+</div>
+<div class="container aaa">
+    <div class="col-md-3 " id="wai">
+        {% get_memu username %}
+    </div>
+    <div class="col-md-8 beijing">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</div>
+</body>
+</html>
